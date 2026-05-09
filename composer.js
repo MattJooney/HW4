@@ -1,8 +1,5 @@
-// ── Note names ────────────────────────────────────────────────────────────────
+
 const NOTE_NAMES = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
-
-// ── Pitch Set Theory operations ───────────────────────────────────────────────
-
 /**
  * Transpose: shift each pitch class by n semitones (mod 12)
  * @param {number[]} pcs
@@ -23,7 +20,6 @@ function inverse(pcs) {
 }
 
 /**
- * Retrograde: reverse the order of the sequence
  * @param {number[]} pcs
  * @returns {number[]}
  */
@@ -31,14 +27,7 @@ function retrograde(pcs) {
   return [...pcs].reverse();
 }
 
-// ── Input parsing ─────────────────────────────────────────────────────────────
-
-/**
- * Parse a comma-separated pitch class string.
- * Returns null if any value is outside [0, 11].
- * @param {string} str
- * @returns {number[]|null}
- */
+ 
 function parsePCS(str) {
   const vals = str.split(',').map(s => parseInt(s.trim(), 10));
   if (vals.some(isNaN) || vals.some(v => v < 0 || v > 11)) return null;
@@ -68,14 +57,12 @@ function applyRandomOp(pcs) {
   }
 }
 
-// ── State ─────────────────────────────────────────────────────────────────────
 let composition    = [];
 let audioCtx       = null;
 let scheduledNodes = [];
 let pillTimers     = [];
 let playTimeout    = null;
 
-// ── Audio helpers ─────────────────────────────────────────────────────────────
 
 function getAudioCtx() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -85,7 +72,6 @@ function getAudioCtx() {
 function midiNote(pc, octave) { return octave * 12 + 12 + pc; }
 function noteFreq(midi)        { return 440 * Math.pow(2, (midi - 69) / 12); }
 
-// ── Status helper ─────────────────────────────────────────────────────────────
 
 function setStatus(msg, type = '') {
   const el = document.getElementById('status');
@@ -93,7 +79,6 @@ function setStatus(msg, type = '') {
   el.className = 'status-bar' + (type ? ' ' + type : '');
 }
 
-// ── Generate ──────────────────────────────────────────────────────────────────
 
 function generate() {
   const pcsStr = document.getElementById('pcs-input').value;
@@ -133,8 +118,6 @@ function generate() {
   const total = composition.reduce((a, s) => a + s.notes.length, 0);
   setStatus(`${composition.length} ops · ${total} notes`, 'ok');
 }
-
-// ── Playback ──────────────────────────────────────────────────────────────────
 
 function playComposition() {
   const ctx = getAudioCtx();
@@ -211,9 +194,6 @@ function clearAllActive() {
   document.querySelectorAll('.pill.active').forEach(el => el.classList.remove('active'));
 }
 
-// ── Visualization ─────────────────────────────────────────────────────────────
-
-// Color per pitch class — warm amber/teal palette on dark bg
 const NOTE_COLORS = [
   '#e8a020','#d4720a','#c25010','#e05050','#c03060',
   '#903080','#5040c0','#3060d0','#20a0c0','#20b870',
@@ -235,7 +215,6 @@ function drawVis() {
 
   ctx2.clearRect(0, 0, W, H);
 
-  // Faint grid lines at each pitch class row
   ctx2.strokeStyle = '#1a1a1a';
   ctx2.lineWidth = 0.5;
   for (let row = 0; row <= 11; row++) {
@@ -257,16 +236,13 @@ function drawVis() {
     const y     = H - pad - ((pc / 11) * (H - pad * 2));
     const color = NOTE_COLORS[pc % NOTE_COLORS.length];
 
-    // Dim vertical trail
     ctx2.fillStyle = color + '18';
     ctx2.fillRect(x, 0, nw, H);
 
-    // Bright note bar
     ctx2.fillStyle = color;
     ctx2.fillRect(x, y - 2, nw, 4);
   });
 
-  // Pitch class labels on left
   ctx2.font = '8px Share Tech Mono, monospace';
   for (let pc = 0; pc <= 11; pc += 3) {
     const y = H - ((pc / 11) * (H - 12)) - 4;
@@ -274,8 +250,6 @@ function drawVis() {
     ctx2.fillText(pc, 3, y);
   }
 }
-
-// ── Render sequence rows ──────────────────────────────────────────────────────
 
 function renderSteps() {
   const list = document.getElementById('steps-list');
@@ -299,8 +273,6 @@ function renderSteps() {
   });
 }
 
-// ── Wire controls ─────────────────────────────────────────────────────────────
-
 document.getElementById('gen-btn').addEventListener('click', generate);
 document.getElementById('play-btn').addEventListener('click', playComposition);
 document.getElementById('stop-btn').addEventListener('click', stopPlayback);
@@ -317,5 +289,5 @@ document.getElementById('vol-slider').addEventListener('input', e => {
 
 window.addEventListener('resize', () => { if (composition.length) drawVis(); });
 
-// Auto-generate on load
+
 generate();

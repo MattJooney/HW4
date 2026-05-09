@@ -33,7 +33,6 @@
       font-size: 13px;
     }
 
-    /* ── TOP BAR ── */
     .topbar {
       display: flex;
       align-items: center;
@@ -65,7 +64,6 @@
       text-transform: uppercase;
     }
 
-    /* ── MAIN LAYOUT ── */
     .shell {
       display: grid;
       grid-template-columns: 280px 1fr;
@@ -73,7 +71,6 @@
       min-height: calc(100vh - 42px);
     }
 
-    /* ── LEFT PANEL ── */
     .left-panel {
       background: var(--panel);
       border-right: 1px solid var(--border2);
@@ -135,7 +132,6 @@
       border-left-color: var(--amber);
     }
 
-    /* Knob-style slider */
     .slider-wrap {
       display: flex;
       align-items: center;
@@ -192,7 +188,6 @@
 
     select:focus { border-color: var(--amber); }
 
-    /* ── BUTTONS ── */
     .btn-stack {
       display: flex;
       flex-direction: column;
@@ -247,7 +242,6 @@
     .btn.stop-btn::before { border-color: var(--red); }
     .btn.stop-btn:hover { background: #200d0d; border-color: var(--red); }
 
-    /* ── STATUS ── */
     .status-bar {
       margin-top: auto;
       border-top: 1px solid var(--border);
@@ -261,14 +255,12 @@
     .status-bar.err { color: var(--red); }
     .status-bar.ok  { color: var(--green); }
 
-    /* ── RIGHT PANEL ── */
     .right-panel {
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
 
-    /* ── VIS ── */
     .vis-wrap {
       border-bottom: 1px solid var(--border2);
       padding: 0;
@@ -295,7 +287,6 @@
       display: block;
     }
 
-    /* ── SEQUENCE AREA ── */
     .seq-area {
       flex: 1;
       overflow-y: auto;
@@ -376,7 +367,6 @@
       background: #1f1300;
     }
 
-    /* ── EMPTY STATE ── */
     .empty-state {
       display: flex;
       flex-direction: column;
@@ -402,7 +392,6 @@
       text-transform: uppercase;
     }
 
-    /* scrollbar for whole page */
     body::-webkit-scrollbar { width: 4px; }
     body::-webkit-scrollbar-track { background: var(--bg); }
     body::-webkit-scrollbar-thumb { background: var(--border2); }
@@ -422,7 +411,6 @@
 
 <div class="shell">
 
-  <!-- LEFT CONTROL PANEL -->
   <div class="left-panel">
 
     <div class="section">
@@ -482,7 +470,6 @@
 
   </div>
 
-  <!-- RIGHT OUTPUT PANEL -->
   <div class="right-panel">
 
     <div class="vis-wrap">
