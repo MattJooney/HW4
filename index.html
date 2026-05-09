@@ -1,0 +1,513 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PST // Composer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0d0d0d;
+      --panel:    #141414;
+      --raised:   #1c1c1c;
+      --border:   #2a2a2a;
+      --border2:  #383838;
+      --amber:    #e8a020;
+      --amber-dim:#7a4d08;
+      --green:    #3ddc84;
+      --red:      #e84040;
+      --text:     #c8c8c8;
+      --dim:      #555;
+      --mono:     'Share Tech Mono', monospace;
+      --cond:     'Barlow Condensed', sans-serif;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      min-height: 100vh;
+      font-size: 13px;
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 42px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border2);
+    }
+
+    .logo {
+      font-family: var(--cond);
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: 6px;
+      color: var(--amber);
+      text-transform: uppercase;
+    }
+
+    .logo span {
+      color: var(--dim);
+      font-weight: 300;
+    }
+
+    .topbar-right {
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .shell {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      grid-template-rows: auto 1fr;
+      min-height: calc(100vh - 42px);
+    }
+
+    /* ── LEFT PANEL ── */
+    .left-panel {
+      background: var(--panel);
+      border-right: 1px solid var(--border2);
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .section {
+      border-bottom: 1px solid var(--border);
+      padding: 14px 16px;
+    }
+
+    .section-label {
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--amber-dim);
+    }
+
+    .field { margin-bottom: 12px; }
+    .field:last-child { margin-bottom: 0; }
+
+    .field-label {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 5px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border2);
+      border-left: 3px solid var(--amber-dim);
+      color: var(--amber);
+      font-family: var(--mono);
+      font-size: 15px;
+      padding: 7px 10px;
+      outline: none;
+      letter-spacing: 2px;
+      transition: border-color 0.1s;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--amber);
+      border-left-color: var(--amber);
+    }
+
+    /* Knob-style slider */
+    .slider-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      flex: 1;
+      height: 3px;
+      background: var(--border2);
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      background: var(--amber);
+      border: none;
+      cursor: pointer;
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      background: var(--amber);
+      border: none;
+      cursor: pointer;
+    }
+
+    .slider-val {
+      font-size: 12px;
+      color: var(--amber);
+      min-width: 36px;
+      text-align: right;
+    }
+
+    select {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border2);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 6px 8px;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    select:focus { border-color: var(--amber); }
+
+    /* ── BUTTONS ── */
+    .btn-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 14px 16px;
+    }
+
+    .btn {
+      font-family: var(--cond);
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 10px 14px;
+      border: 1px solid var(--border2);
+      background: var(--raised);
+      color: var(--dim);
+      cursor: pointer;
+      transition: all 0.08s;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border: 1px solid var(--dim);
+      flex-shrink: 0;
+      transition: all 0.08s;
+    }
+
+    .btn:hover { border-color: var(--border2); color: var(--text); }
+    .btn:hover::before { border-color: var(--text); }
+    .btn:active { transform: translateY(1px); }
+    .btn:disabled { opacity: 0.25; cursor: default; transform: none; }
+
+    .btn.gen {
+      color: var(--amber);
+      border-color: var(--amber-dim);
+    }
+    .btn.gen::before { background: var(--amber); border-color: var(--amber); }
+    .btn.gen:hover { background: var(--amber-dim); border-color: var(--amber); }
+
+    .btn.play-btn { color: var(--green); border-color: #1a4a2e; }
+    .btn.play-btn::before { border-color: var(--green); }
+    .btn.play-btn:hover { background: #0d2018; border-color: var(--green); }
+
+    .btn.stop-btn { color: var(--red); border-color: #4a1a1a; }
+    .btn.stop-btn::before { border-color: var(--red); }
+    .btn.stop-btn:hover { background: #200d0d; border-color: var(--red); }
+
+    /* ── STATUS ── */
+    .status-bar {
+      margin-top: auto;
+      border-top: 1px solid var(--border);
+      padding: 10px 16px;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--dim);
+      min-height: 36px;
+    }
+
+    .status-bar.err { color: var(--red); }
+    .status-bar.ok  { color: var(--green); }
+
+    /* ── RIGHT PANEL ── */
+    .right-panel {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── VIS ── */
+    .vis-wrap {
+      border-bottom: 1px solid var(--border2);
+      padding: 0;
+      position: relative;
+      background: #080808;
+      height: 120px;
+      flex-shrink: 0;
+    }
+
+    .vis-label {
+      position: absolute;
+      top: 8px;
+      left: 10px;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--dim);
+      z-index: 1;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* ── SEQUENCE AREA ── */
+    .seq-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0;
+    }
+
+    .seq-area::-webkit-scrollbar { width: 4px; }
+    .seq-area::-webkit-scrollbar-track { background: var(--bg); }
+    .seq-area::-webkit-scrollbar-thumb { background: var(--border2); }
+
+    .seq-header {
+      display: grid;
+      grid-template-columns: 32px 60px 1fr;
+      gap: 0;
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--border2);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dim);
+      position: sticky;
+      top: 0;
+      background: var(--panel);
+      z-index: 2;
+    }
+
+    .step-row {
+      display: grid;
+      grid-template-columns: 32px 60px 1fr;
+      gap: 0;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding: 7px 14px;
+      transition: background 0.08s;
+    }
+
+    .step-row:hover { background: var(--raised); }
+
+    .step-num {
+      font-size: 10px;
+      color: var(--dim);
+    }
+
+    .op-badge {
+      font-family: var(--cond);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    .op-P  { color: #aaa; }
+    .op-T  { color: #5b9bd5; }
+    .op-I  { color: #c07dde; }
+    .op-R  { color: #e8a020; }
+    .op-RI { color: #e05050; }
+
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+    }
+
+    .pill {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 3px 7px;
+      border: 1px solid var(--border);
+      color: var(--dim);
+      background: transparent;
+      cursor: default;
+      transition: all 0.08s;
+      letter-spacing: 0.5px;
+    }
+
+    .pill.active {
+      border-color: var(--amber);
+      color: var(--amber);
+      background: #1f1300;
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 8px;
+      color: var(--border2);
+    }
+
+    .empty-state .big {
+      font-family: var(--cond);
+      font-size: 64px;
+      font-weight: 700;
+      letter-spacing: 12px;
+      line-height: 1;
+      color: #1a1a1a;
+    }
+
+    .empty-state .small {
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    /* scrollbar for whole page */
+    body::-webkit-scrollbar { width: 4px; }
+    body::-webkit-scrollbar-track { background: var(--bg); }
+    body::-webkit-scrollbar-thumb { background: var(--border2); }
+
+    @media (max-width: 600px) {
+      .shell { grid-template-columns: 1fr; }
+      .left-panel { border-right: none; border-bottom: 1px solid var(--border2); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">PST<span> // </span>Composer</div>
+  <div class="topbar-right">Pitch Set Theory &nbsp;·&nbsp; Serial Transformations</div>
+</div>
+
+<div class="shell">
+
+  <!-- LEFT CONTROL PANEL -->
+  <div class="left-panel">
+
+    <div class="section">
+      <div class="section-label">Input</div>
+      <div class="field">
+        <div class="field-label">Pitch class set &nbsp;(0 – 11)</div>
+        <input type="text" id="pcs-input" value="0,1,4,6" placeholder="e.g. 0,3,6,9">
+      </div>
+      <div class="field">
+        <div class="field-label">Transformations</div>
+        <input type="text" id="steps-input" value="8" placeholder="1–32" style="width:80px; font-size:20px;">
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Playback</div>
+      <div class="field">
+        <div class="field-label">Tempo &nbsp;<span id="tempo-val" style="color:var(--amber)">120</span> bpm</div>
+        <div class="slider-wrap">
+          <input type="range" id="tempo-slider" min="40" max="240" value="120" step="1">
+          <span class="slider-val" id="tempo-disp">120</span>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">Volume &nbsp;<span id="vol-pct" style="color:var(--amber)">70</span>%</div>
+        <div class="slider-wrap">
+          <input type="range" id="vol-slider" min="0" max="100" value="70" step="1">
+          <span class="slider-val" id="vol-disp">70</span>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">Octave</div>
+        <select id="octave-select">
+          <option value="3">3</option>
+          <option value="4" selected>4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      <div class="field">
+        <div class="field-label">Waveform</div>
+        <select id="wave-select">
+          <option value="triangle" selected>TRIANGLE</option>
+          <option value="sine">SINE</option>
+          <option value="square">SQUARE</option>
+          <option value="sawtooth">SAWTOOTH</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="btn-stack">
+      <button class="btn gen" id="gen-btn">Generate</button>
+      <button class="btn play-btn" id="play-btn" disabled>Play</button>
+      <button class="btn stop-btn" id="stop-btn" disabled>Stop</button>
+    </div>
+
+    <div class="status-bar" id="status">ready_</div>
+
+  </div>
+
+  <!-- RIGHT OUTPUT PANEL -->
+  <div class="right-panel">
+
+    <div class="vis-wrap">
+      <div class="vis-label">Pitch map</div>
+      <canvas id="vis" aria-label="Pitch timeline visualization"></canvas>
+    </div>
+
+    <div class="seq-area" id="seq-area">
+      <div class="empty-state" id="empty-state">
+        <div class="big">PST</div>
+        <div class="small">Press generate to begin</div>
+      </div>
+      <div id="seq-container" style="display:none">
+        <div class="seq-header">
+          <div>#</div>
+          <div>Op</div>
+          <div>Notes</div>
+        </div>
+        <div id="steps-list"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="composer.js"></script>
+</body>
+</html>
