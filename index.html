@@ -33,6 +33,7 @@
       font-size: 13px;
     }
 
+    /* ── TOP BAR ── */
     .topbar {
       display: flex;
       align-items: center;
@@ -64,6 +65,7 @@
       text-transform: uppercase;
     }
 
+    /* ── MAIN LAYOUT ── */
     .shell {
       display: grid;
       grid-template-columns: 280px 1fr;
@@ -71,6 +73,7 @@
       min-height: calc(100vh - 42px);
     }
 
+    /* ── LEFT PANEL ── */
     .left-panel {
       background: var(--panel);
       border-right: 1px solid var(--border2);
@@ -132,6 +135,7 @@
       border-left-color: var(--amber);
     }
 
+    /* Knob-style slider */
     .slider-wrap {
       display: flex;
       align-items: center;
@@ -188,6 +192,7 @@
 
     select:focus { border-color: var(--amber); }
 
+    /* ── BUTTONS ── */
     .btn-stack {
       display: flex;
       flex-direction: column;
@@ -242,6 +247,7 @@
     .btn.stop-btn::before { border-color: var(--red); }
     .btn.stop-btn:hover { background: #200d0d; border-color: var(--red); }
 
+    /* ── STATUS ── */
     .status-bar {
       margin-top: auto;
       border-top: 1px solid var(--border);
@@ -255,12 +261,14 @@
     .status-bar.err { color: var(--red); }
     .status-bar.ok  { color: var(--green); }
 
+    /* ── RIGHT PANEL ── */
     .right-panel {
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
 
+    /* ── VIS ── */
     .vis-wrap {
       border-bottom: 1px solid var(--border2);
       padding: 0;
@@ -287,6 +295,7 @@
       display: block;
     }
 
+    /* ── SEQUENCE AREA ── */
     .seq-area {
       flex: 1;
       overflow-y: auto;
@@ -367,6 +376,7 @@
       background: #1f1300;
     }
 
+    /* ── EMPTY STATE ── */
     .empty-state {
       display: flex;
       flex-direction: column;
@@ -392,6 +402,7 @@
       text-transform: uppercase;
     }
 
+    /* scrollbar for whole page */
     body::-webkit-scrollbar { width: 4px; }
     body::-webkit-scrollbar-track { background: var(--bg); }
     body::-webkit-scrollbar-thumb { background: var(--border2); }
@@ -400,6 +411,41 @@
       .shell { grid-template-columns: 1fr; }
       .left-panel { border-right: none; border-bottom: 1px solid var(--border2); }
     }
+
+    /* ── BLOG SECTION ── */
+    .blog-section {
+      border-top: 1px solid var(--border2);
+      padding: 48px 20px 64px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .blog-section h1 {
+      font-family: var(--cond);
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 6px;
+    }
+
+    .blog-divider {
+      width: 40px;
+      height: 2px;
+      background: var(--amber-dim);
+      margin-bottom: 28px;
+    }
+
+    .blog-section p {
+      font-family: 'Georgia', serif;
+      font-size: 14px;
+      line-height: 1.85;
+      color: #a0a0a0;
+      margin-bottom: 18px;
+    }
+
+    .blog-section p:last-child { margin-bottom: 0; }
   </style>
 </head>
 <body>
@@ -411,6 +457,7 @@
 
 <div class="shell">
 
+  <!-- LEFT CONTROL PANEL -->
   <div class="left-panel">
 
     <div class="section">
@@ -470,6 +517,7 @@
 
   </div>
 
+  <!-- RIGHT OUTPUT PANEL -->
   <div class="right-panel">
 
     <div class="vis-wrap">
@@ -496,5 +544,31 @@
 </div>
 
 <script src="composer.js"></script>
+
+<!-- BLOG POST -->
+<div class="blog-section">
+  <h1>HW 4 Blog</h1>
+  <div class="blog-divider"></div>
+
+  <p>
+    For this assignment, I decided to go with extending on Pitch Set Theory using transpose, inverse, and retrograde implementations. More specifically, I tried using pitch set theory to create a melody generator using numbers generated in an unpredictable manner.
+  </p>
+  <p>
+    First, I used an array of integers from 0–11 in order to implement the 12-tone chromatic scale (C=0, C#=1, D=2, D#=3, and so on). In order to apply transposition, I assigned n to be semitones and p to be pitch with p = (p + n) % 12 to determine the final pitch after n semitones transposition. The modulo 12 is to keep the integer within the 0–11 range in case the transposition goes further than an octave. Therefore, transposing a C major chord (0, 4, 7) by five semitones gives an F major chord (5, 7, 0).
+  </p>
+  <p>
+    With inversion, I used p = (12 - p) % 12 as my formula, which inverses the pitch so that the beginning pitch and resulting pitch add up to 12. 0 stays 0, 1 becomes 11, 2 becomes 10, and so on.
+  </p>
+  <p>
+    Lastly, retrograde required reversing the array of pitches to play. For example, if the original melody contains [0, 3, 6, 5], the retrograde function would simply reverse the array to output [5, 6, 3, 0].
+  </p>
+  <p>
+    On the surface, despite being familiar with pitch and music theory in general, the assignment scared me in the fact that I thought there would be a lot to implement. I fully expected to have massive long sessions of struggle with this portion, but the logic seemed a lot more fluid than I expected. Not only that, with every pitch being so related and intertwined with one another through transposition, inversion, and retrograde, I was fully expecting a melody that is somewhat comprehensible; however, from my own personal opinion, the melody does not seem intertwined with one another at all.
+  </p>
+  <p>
+    If I were to extend this project, I think it would be nice to implement a way to generate rhythms that are structured. I believe rhythm to be a crucial part of creating a comprehensive melody, especially when it comes to flow. I think a major obstacle is determining the set of rules for the script to follow. Unlike pitch where there are implementations of transposition and inverse, there are so many combinations of rhythm that should have rules of when to be used.
+  </p>
+</div>
+
 </body>
 </html>
